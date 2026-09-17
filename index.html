@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://w3.org">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!-- Обязательный метатег для мобильного IE, чтобы сайт подгонялся под экраны Lumia -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Google Services for Windows 10 Mobile</title>
+    <style type="text/css">
+        /* Базовые стили Metro UI */
+        body {
+            background-color: #000000; /* Черная тема */
+            color: #ffffff;
+            font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 15px;
+        }
+
+        /* Поисковая строка на самом верху */
+        .search-container {
+            margin-bottom: 25px;
+            width: 100%;
+        }
+        .search-box {
+            width: 95%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #ffffff;
+            border: 2px solid #ffffff;
+            color: #000000;
+        }
+
+        /* Заголовки в стиле Windows Phone */
+        .site-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #a2a2a2;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        .site-subtitle {
+            font-size: 28px;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-weight: lighter;
+        }
+
+        /* Контейнер для баннеров */
+        .banners-container {
+            width: 100%;
+        }
+
+        /* Информационный баннер (без ссылки) */
+        .tile-banner {
+            background-color: #0078d7; /* Фирменный синий цвет */
+            color: #ffffff;
+            margin-bottom: 15px;
+            width: 100%;
+            border: 1px solid #1f8ad2;
+        }
+        
+        /* Табличная верстка для идеального отображения в старых IE */
+        .tile-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .tile-image-cell {
+            width: 80px;
+            padding: 15px;
+            vertical-align: top;
+        }
+        .tile-image {
+            width: 64px;
+            height: 64px;
+            border: 0;
+        }
+        .tile-text-cell {
+            padding: 15px 15px 15px 0;
+            vertical-align: middle;
+        }
+        .tile-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+        }
+        .tile-desc {
+            font-size: 14px;
+            color: #e0e0e0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. ПОИСК (На самом верху) -->
+    <div class="search-container">
+        <form action="https://google.com" method="GET" target="_blank">
+            <input type="text" name="q" class="search-box" placeholder="Поиск в интернете...">
+        </form>
+    </div>
+
+    <!-- Заголовки хаба -->
+    <div class="site-title">Google Services</div>
+    <div class="site-subtitle">Windows 10 Mobile</div>
+
+    <!-- 2. БАННЕРЫ (Под поиском, пока никуда не ведут) -->
+    <div class="banners-container">
+
+        <!-- Баннер 1: Web -->
+        <div class="tile-banner">
+            <table class="tile-table">
+                <tr>
+                    <td class="tile-image-cell">
+                        <img src="https://placeholder.com" alt="Web" class="tile-image">
+                    </td>
+                    <td class="tile-text-cell">
+                        <div class="tile-title">Web-версии</div>
+                        <div class="tile-desc">Запуск сервисов Google прямо в браузере вашего телефона без установки.</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Баннер 2: Apps -->
+        <div class="tile-banner" style="background-color: #107c41; border-color: #1a924d;">
+            <table class="tile-table">
+                <tr>
+                    <td class="tile-image-cell">
+                        <img src="https://placeholder.com" alt="Apps" class="tile-image">
+                    </td>
+                    <td class="tile-text-cell">
+                        <div class="tile-title">Приложения (XAP/APPX)</div>
+                        <div class="tile-desc">Скачать рабочие клиенты YouTube, Drive и Карты для сайдлоадинга.</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- 3. Под ними пока что ничего нет -->
+
+</body>
+</html>
