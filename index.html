@@ -2,20 +2,16 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <!-- Обязательный метатег для мобильного IE, чтобы сайт подгонялся под экраны Lumia -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Google Services for Windows 10 Mobile</title>
     <style type="text/css">
-        /* Базовые стили Metro UI */
         body {
-            background-color: #000000; /* Черная тема */
+            background-color: #000000;
             color: #ffffff;
             font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 15px;
         }
-
-        /* Поисковая строка на самом верху */
         .search-container {
             margin-bottom: 25px;
             width: 100%;
@@ -28,8 +24,6 @@
             border: 2px solid #ffffff;
             color: #000000;
         }
-
-        /* Заголовки в стиле Windows Phone */
         .site-title {
             font-size: 14px;
             text-transform: uppercase;
@@ -43,22 +37,28 @@
             margin-bottom: 25px;
             font-weight: lighter;
         }
-
-        /* Контейнер для баннеров */
-        .banners-container {
+        .slider-wrapper {
+            position: relative;
             width: 100%;
+            overflow: hidden;
+            margin-bottom: 25px;
         }
-
-        /* Информационный баннер (без ссылки) */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            white-space: nowrap;
+            font-size: 0;
+        }
         .tile-banner {
-            background-color: #0078d7; /* Фирменный синий цвет */
-            color: #ffffff;
-            margin-bottom: 15px;
+            display: inline-block;
             width: 100%;
+            box-sizing: border-box;
+            background-color: #0078d7;
+            color: #ffffff;
             border: 1px solid #1f8ad2;
+            vertical-align: top;
+            white-space: normal;
         }
-        
-        /* Табличная верстка для идеального отображения в старых IE */
         .tile-table {
             width: 100%;
             border-collapse: collapse;
@@ -87,57 +87,142 @@
             color: #e0e0e0;
             margin: 0;
         }
+        .slider-nav {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .slider-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin: 0 5px;
+            background-color: #555555;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .slider-dot.active {
+            background-color: #ffffff;
+        }
     </style>
 </head>
 <body>
 
-    <!-- 1. ПОИСК (На самом верху) -->
     <div class="search-container">
         <form action="https://google.com" method="GET" target="_blank">
             <input type="text" name="q" class="search-box" placeholder="Поиск в интернете...">
         </form>
     </div>
 
-    <!-- Заголовки хаба -->
     <div class="site-title">Google Services</div>
     <div class="site-subtitle">Windows 10 Mobile</div>
 
-    <!-- 2. БАННЕРЫ (Под поиском, пока никуда не ведут) -->
-    <div class="banners-container">
+    <div class="slider-wrapper" id="sliderWrapper">
+        <div class="slider-container" id="sliderContainer">
+            
+            <div class="tile-banner">
+                <table class="tile-table">
+                    <tr>
+                        <td class="tile-image-cell">
+                            <img src="https://placeholder.com" alt="Web" class="tile-image">
+                        </td>
+                        <td class="tile-text-cell">
+                            <div class="tile-title">Web-версии</div>
+                            <div class="tile-desc">Запуск сервисов Google прямо в браузере вашего телефона без установки.</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
-        <!-- Баннер 1: Web -->
-        <div class="tile-banner">
-            <table class="tile-table">
-                <tr>
-                    <td class="tile-image-cell">
-                        <img src="https://placeholder.com" alt="Web" class="tile-image">
-                    </td>
-                    <td class="tile-text-cell">
-                        <div class="tile-title">Web-версии</div>
-                        <div class="tile-desc">Запуск сервисов Google прямо в браузере вашего телефона без установки.</div>
-                    </td>
-                </tr>
-            </table>
+            <div class="tile-banner" style="background-color: #107c41; border-color: #1a924d;">
+                <table class="tile-table">
+                    <tr>
+                        <td class="tile-image-cell">
+                            <img src="https://placeholder.com" alt="Apps" class="tile-image">
+                        </td>
+                        <td class="tile-text-cell">
+                            <div class="tile-title">Приложения (XAP/APPX)</div>
+                            <div class="tile-desc">Скачать рабочие клиенты YouTube, Drive и Карты для сайдлоадинга.</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
         </div>
-
-        <!-- Баннер 2: Apps -->
-        <div class="tile-banner" style="background-color: #107c41; border-color: #1a924d;">
-            <table class="tile-table">
-                <tr>
-                    <td class="tile-image-cell">
-                        <img src="https://placeholder.com" alt="Apps" class="tile-image">
-                    </td>
-                    <td class="tile-text-cell">
-                        <div class="tile-title">Приложения (XAP/APPX)</div>
-                        <div class="tile-desc">Скачать рабочие клиенты YouTube, Drive и Карты для сайдлоадинга.</div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
     </div>
 
-    <!-- 3. Под ними пока что ничего нет -->
+    <div class="slider-nav" id="sliderNav">
+        <span class="slider-dot active" onclick="goToSlide(0)"></span>
+        <span class="slider-dot" onclick="goToSlide(1)"></span>
+    </div>
+
+    <script type="text/javascript">
+        var container = document.getElementById('sliderContainer');
+        var dots = document.getElementById('sliderNav').getElementsByTagName('span');
+        var currentIndex = 0;
+        var totalSlides = 2;
+        var slideInterval;
+        var startX = 0;
+
+        function updateSlider() {
+            var offset = -currentIndex * 100;
+            container.style.left = offset + '%';
+            for (var i = 0; i < dots.length; i++) {
+                dots[i].className = 'slider-dot' + (i === currentIndex ? ' active' : '');
+            }
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateSlider();
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            updateSlider();
+            resetTimer();
+        }
+
+        function resetTimer() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        container.style.position = 'relative';
+        container.style.left = '0%';
+        container.style.transition = 'left 0.3s ease-out';
+
+        function handleStart(e) {
+            startX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+        }
+
+        function handleEnd(e) {
+            var endX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+            var diff = startX - endX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && currentIndex < totalSlides - 1) {
+                    currentIndex++;
+                } else if (diff < 0 && currentIndex > 0) {
+                    currentIndex--;
+                }
+                updateSlider();
+                resetTimer();
+            }
+        }
+
+        var wrapper = document.getElementById('sliderWrapper');
+        
+        if (window.navigator.msPointerEnabled) {
+            wrapper.addEventListener('MSPointerDown', handleStart, false);
+            wrapper.addEventListener('MSPointerUp', handleEnd, false);
+        } else {
+            wrapper.addEventListener('touchstart', handleStart, false);
+            wrapper.addEventListener('touchend', handleEnd, false);
+            wrapper.addEventListener('mousedown', handleStart, false);
+            wrapper.addEventListener('mouseup', handleEnd, false);
+        }
+
+        resetTimer();
+    </script>
 
 </body>
 </html>
