@@ -40,18 +40,21 @@
         .slider-wrapper {
             position: relative;
             width: 100%;
+            height: 130px;
             overflow: hidden;
             margin-bottom: 25px;
         }
         .slider-container {
             position: relative;
             width: 100%;
+            height: 100%;
             white-space: nowrap;
             font-size: 0;
         }
         .tile-banner {
             display: inline-block;
             width: 100%;
+            height: 100%;
             box-sizing: border-box;
             background-color: #0078d7;
             color: #ffffff;
@@ -61,6 +64,7 @@
         }
         .tile-table {
             width: 100%;
+            height: 100%;
             border-collapse: collapse;
         }
         .tile-image-cell {
@@ -74,8 +78,8 @@
             border: 0;
         }
         .tile-text-cell {
-            padding: 15px 15px 15px 0;
-            vertical-align: middle;
+            padding: 15px 15px 30px 0;
+            vertical-align: top;
         }
         .tile-title {
             font-size: 20px;
@@ -86,16 +90,19 @@
             font-size: 14px;
             color: #e0e0e0;
             margin: 0;
+            line-height: 1.2;
         }
         .slider-nav {
-            text-align: center;
-            margin-top: 10px;
+            position: absolute;
+            left: 95px;
+            bottom: 12px;
+            z-index: 10;
         }
         .slider-dot {
             display: inline-block;
             width: 10px;
             height: 10px;
-            margin: 0 5px;
+            margin-right: 8px;
             background-color: #555555;
             border-radius: 50%;
             cursor: pointer;
@@ -123,11 +130,11 @@
                 <table class="tile-table">
                     <tr>
                         <td class="tile-image-cell">
-                            <img src="https://placeholder.com" alt="Web" class="tile-image">
+                            <img src="https://placeholder.com" alt="Google Maps" class="tile-image">
                         </td>
                         <td class="tile-text-cell">
-                            <div class="tile-title">Web-версии</div>
-                            <div class="tile-desc">Запуск сервисов Google прямо в браузере вашего телефона без установки.</div>
+                            <div class="tile-title">Google Maps</div>
+                            <div class="tile-desc">Скоро выйдет Google Maps</div>
                         </td>
                     </tr>
                 </table>
@@ -137,22 +144,22 @@
                 <table class="tile-table">
                     <tr>
                         <td class="tile-image-cell">
-                            <img src="https://placeholder.com" alt="Apps" class="tile-image">
+                            <img src="https://placeholder.com" alt="Google Translate" class="tile-image">
                         </td>
                         <td class="tile-text-cell">
-                            <div class="tile-title">Приложения (XAP/APPX)</div>
-                            <div class="tile-desc">Скачать рабочие клиенты YouTube, Drive и Карты для сайдлоадинга.</div>
+                            <div class="tile-title">Google Translate</div>
+                            <div class="tile-desc">Переводите любой текст, мой Google Переводчик умеет текст ну и переводить, будет микрофон.</div>
                         </td>
                     </tr>
                 </table>
             </div>
 
         </div>
-    </div>
 
-    <div class="slider-nav" id="sliderNav">
-        <span class="slider-dot active" onclick="goToSlide(0)"></span>
-        <span class="slider-dot" onclick="goToSlide(1)"></span>
+        <div class="slider-nav" id="sliderNav">
+            <span class="slider-dot active" onclick="goToSlide(0)"></span>
+            <span class="slider-dot" onclick="goToSlide(1)"></span>
+        </div>
     </div>
 
     <script type="text/javascript">
@@ -192,11 +199,11 @@
         container.style.transition = 'left 0.3s ease-out';
 
         function handleStart(e) {
-            startX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+            startX = e.changedTouches ? e.changedTouches.clientX : e.clientX;
         }
 
         function handleEnd(e) {
-            var endX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+            var endX = e.changedTouches ? e.changedTouches.clientX : e.clientX;
             var diff = startX - endX;
             if (Math.abs(diff) > 50) {
                 if (diff > 0 && currentIndex < totalSlides - 1) {
