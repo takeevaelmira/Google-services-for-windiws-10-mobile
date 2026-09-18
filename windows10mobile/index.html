@@ -130,11 +130,147 @@
             width: 18px;
             border-radius: 4px;
         }
+
+        .apps-section {
+            margin-top: 24px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #e8eaed;
+            margin-bottom: 12px;
+            padding-left: 4px;
+        }
+        .app-card {
+            display: flex;
+            align-items: center;
+            background-color: #202124;
+            border: 1px solid #3c4043;
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+        .app-card:active {
+            background-color: #2d2e31;
+        }
+        .app-card.disabled {
+            cursor: default;
+            opacity: 0.8;
+        }
+        .app-card.disabled:active {
+            background-color: #202124;
+        }
+        .app-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            margin-right: 14px;
+            flex-shrink: 0;
+        }
+        .app-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .app-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8eaed;
+            margin-bottom: 2px;
+        }
+        .app-version {
+            font-size: 13px;
+            color: #9aa0a6;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            overflow-y: auto;
+        }
+        .modal-content {
+            background-color: #202124;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #3c4043;
+            border-radius: 16px;
+            width: 85%;
+            max-width: 400px;
+            color: #e8eaed;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-size: 24px;
+            color: #9aa0a6;
+            cursor: pointer;
+        }
+        .modal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .modal-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            margin-right: 16px;
+        }
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .modal-ver {
+            font-size: 14px;
+            color: #9aa0a6;
+            margin-top: 4px;
+        }
+        .modal-desc {
+            font-size: 14px;
+            line-height: 1.4;
+            color: #e8eaed;
+            margin-bottom: 16px;
+        }
+        .modal-screenshot {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 16px;
+        }
+        .download-btn {
+            display: block;
+            text-align: center;
+            background-color: #8ab4f8;
+            color: #202124;
+            font-weight: 600;
+            padding: 12px;
+            border-radius: 24px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .download-btn:active {
+            background-color: #669df6;
+        }
     </style>
 </head>
 <body>
 
-    <a href="../" class="back-link">Назад к выбору ОС</a>
+    <a href="../" class="back-link">&#8592; Назад к выбору ОС</a>
 
     <div class="search-container">
         <form action="https://google.com" method="GET" target="_blank">
@@ -181,6 +317,44 @@
         <div class="slider-nav" id="sliderNav">
             <span class="slider-dot active" onclick="goToSlide(0)"></span>
             <span class="slider-dot" onclick="goToSlide(1)"></span>
+        </div>
+    </div>
+
+    <div class="apps-section">
+        <div class="section-title">Приложения</div>
+
+        <div class="app-card" onclick="openModal()">
+            <div class="app-icon" style="background-image: url('https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windiws-10-mobile/refs/heads/main/Google-translate-screenshot-1.jpg');"></div>
+            <div class="app-info">
+                <div class="app-name">Google Переводчик</div>
+                <div class="app-version">Версия 1.0.0</div>
+            </div>
+        </div>
+
+        <div class="app-card disabled">
+            <div class="app-icon" style="background-image: url('https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windiws-10-mobile/refs/heads/main/Google_Maps_icon.png');"></div>
+            <div class="app-info">
+                <div class="app-name">Google Карты</div>
+                <div class="app-version">Скоро выйдет</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="appModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div class="modal-header">
+                <div class="modal-icon" style="background-image: url('https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windiws-10-mobile/refs/heads/main/Google-translate-screenshot-1.jpg');"></div>
+                <div>
+                    <div class="modal-title">Google Переводчик</div>
+                    <div class="modal-ver">Версия 1.0.0</div>
+                </div>
+            </div>
+            <div class="modal-desc">
+                Приложение позволяет переводить любой текст, а также использовать камеру и микрофон для быстрого перевода.
+            </div>
+            <img src="https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windiws-10-mobile/refs/heads/main/Google-translate-screenshot-1.jpg" class="modal-screenshot" alt="Скриншот">
+            <a href="#" class="download-btn">Скачать</a>
         </div>
     </div>
 
@@ -251,6 +425,14 @@
         }
 
         resetTimer();
+
+        function openModal() {
+            document.getElementById('appModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('appModal').style.display = 'none';
+        }
     </script>
 
 </body>
