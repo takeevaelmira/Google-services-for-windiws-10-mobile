@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://w3.org">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Google Services - Windows 10 Mobile</title>
+    <style type="text/css">
+        body {
+            background-color: #121212;
+            color: #e8eaed;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 16px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 16px;
+            color: #8ab4f8;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .search-container {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .search-box {
+            width: 93%;
+            padding: 12px 16px;
+            font-size: 16px;
+            background-color: #202124;
+            border: 1px solid #3c4043;
+            color: #e8eaed;
+            border-radius: 24px;
+            outline: none;
+        }
+        .site-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #9aa0a6;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+            padding-left: 8px;
+        }
+        .site-subtitle {
+            font-size: 26px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #8ab4f8;
+            padding-left: 8px;
+        }
+        .slider-wrapper {
+            position: relative;
+            width: 100%;
+            height: 140px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            white-space: nowrap;
+            font-size: 0;
+        }
+        .tile-banner {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            background-color: #202124;
+            color: #e8eaed;
+            vertical-align: top;
+            white-space: normal;
+        }
+        .tile-table {
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+        }
+        .tile-image-cell {
+            width: 60px;
+            padding: 20px 0 20px 20px;
+            vertical-align: top;
+        }
+        .tile-image-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+        .tile-text-cell {
+            padding: 20px 20px 35px 16px;
+            vertical-align: top;
+        }
+        .tile-title {
+            font-size: 19px;
+            font-weight: 600;
+            margin: 0 0 6px 0;
+            color: #e8eaed;
+        }
+        .tile-desc {
+            font-size: 14px;
+            color: #9aa0a6;
+            margin: 0;
+            line-height: 1.3;
+        }
+        .slider-nav {
+            position: absolute;
+            left: 108px;
+            bottom: 14px;
+            z-index: 10;
+        }
+        .slider-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            margin-right: 6px;
+            background-color: #3c4043;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .slider-dot.active {
+            background-color: #8ab4f8;
+            width: 18px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="../" class="back-link">&#8592; Назад к выбору ОС</a>
+
+    <div class="search-container">
+        <form action="https://google.com" method="GET" target="_blank">
+            <input type="text" name="q" class="search-box" placeholder="Поиск в интернете...">
+        </form>
+    </div>
+
+    <div class="site-title">Google Services</div>
+    <div class="site-subtitle">Windows 10 Mobile</div>
+
+    <div class="slider-wrapper" id="sliderWrapper">
+        <div class="slider-container" id="sliderContainer">
+            
+            <div class="tile-banner">
+                <table class="tile-table">
+                    <tr>
+                        <td class="tile-image-cell">
+                            <div class="tile-image-icon" style="background-image: url('https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windiws-10-mobile/refs/heads/main/Google_Maps_icon.png');"></div>
+                        </td>
+                        <td class="tile-text-cell">
+                            <div class="tile-title">Google Maps</div>
+                            <div class="tile-desc">Скоро выйдет Google Maps</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="tile-banner">
+                <table class="tile-table">
+                    <tr>
+                        <td class="tile-image-cell">
+                            <div class="tile-image-icon" style="background-image: url('https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windiws-10-mobile/refs/heads/main/Google-translate-screenshot-1.jpg');"></div>
+                        </td>
+                        <td class="tile-text-cell">
+                            <div class="tile-title">Google Translate</div>
+                            <div class="tile-desc">Переводить любой текст через камеру и через микрофон.</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="slider-nav" id="sliderNav">
+            <span class="slider-dot active" onclick="goToSlide(0)"></span>
+            <span class="slider-dot" onclick="goToSlide(1)"></span>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var container = document.getElementById('sliderContainer');
+        var dots = document.getElementById('sliderNav').getElementsByTagName('span');
+        var currentIndex = 0;
+        var totalSlides = 2;
+        var slideInterval;
+        var startX = 0;
+
+        function updateSlider() {
+            var offset = -currentIndex * 100;
+            container.style.left = offset + '%';
+            for (var i = 0; i < dots.length; i++) {
+                dots[i].className = 'slider-dot' + (i === currentIndex ? ' active' : '');
+            }
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateSlider();
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            updateSlider();
+            resetTimer();
+        }
+
+        function resetTimer() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        container.style.position = 'relative';
+        container.style.left = '0%';
+        container.style.transition = 'left 0.3s ease-out';
+
+        function handleStart(e) {
+            startX = e.changedTouches ? e.changedTouches[0].clientX : (e.clientX || 0);
+        }
+
+        function handleEnd(e) {
+            var endX = e.changedTouches ? e.changedTouches[0].clientX : (e.clientX || 0);
+            var diff = startX - endX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && currentIndex < totalSlides - 1) {
+                    currentIndex++;
+                } else if (diff < 0 && currentIndex > 0) {
+                    currentIndex--;
+                }
+                updateSlider();
+                resetTimer();
+            }
+        }
+
+        var wrapper = document.getElementById('sliderWrapper');
+        
+        if (window.navigator.msPointerEnabled) {
+            wrapper.addEventListener('MSPointerDown', handleStart, false);
+            wrapper.addEventListener('MSPointerUp', handleEnd, false);
+        } else {
+            wrapper.addEventListener('touchstart', handleStart, false);
+            wrapper.addEventListener('touchend', handleEnd, false);
+            wrapper.addEventListener('mousedown', handleStart, false);
+            wrapper.addEventListener('mouseup', handleEnd, false);
+        }
+
+        resetTimer();
+    </script>
+
+</body>
+</html>
