@@ -89,12 +89,92 @@
             border-radius: 12px;
             border: 1px solid #3c4043;
             object-fit: cover;
+            cursor: pointer;
         }
         .screenshot-item:last-child {
             margin-right: 0;
         }
 
-        /* Описание и список функций */
+        /* Полноэкранный режим просмотра (LightBox) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.92);
+            text-align: center;
+        }
+        
+        /* Кнопки управления в верхнем углу */
+        .modal-top-bar {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 10000;
+        }
+        .modal-btn {
+            display: inline-block;
+            width: 44px;
+            height: 44px;
+            line-height: 42px;
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 22px;
+            text-decoration: none;
+            margin-left: 8px;
+            user-select: none;
+            -webkit-user-select: none;
+            cursor: pointer;
+        }
+        .modal-btn:active {
+            background-color: rgba(255, 255, 255, 0.35);
+        }
+
+        /* Полноэкранное изображение */
+        .modal-image-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-image {
+            max-width: 90%;
+            max-height: 82%;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        /* Стрелки перелистывания */
+        .modal-nav-btn {
+            position: absolute;
+            top: 50%;
+            margin-top: -25px;
+            width: 50px;
+            height: 50px;
+            line-height: 46px;
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            font-size: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            z-index: 10000;
+        }
+        .modal-nav-prev {
+            left: 12px;
+        }
+        .modal-nav-next {
+            right: 12px;
+        }
+
+        /* Описание */
         .app-desc {
             font-size: 15px;
             line-height: 1.6;
@@ -127,13 +207,28 @@
 
     <a href="https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windows-10-mobile/main/Google%20Translate_1.1.0.0_arm_Debug.appxbundle" class="download-button" download>Скачать</a>
 
-    <!-- Горизонтальная прокрутка скриншотов влево и вправо -->
+    <!-- Горизонтальная прокрутка скриншотов -->
     <div class="screenshots-scroll-container">
-        <img src="https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windows-10-mobile/refs/heads/main/Google-translate-screenshot-1.jpg" class="screenshot-item" alt="Скриншот 1 Google Переводчик">
-        <img src="https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windows-10-mobile/refs/heads/main/Google-translate-screenshot-2.jpg" class="screenshot-item" alt="Скриншот 2 Google Переводчик">
+        <img src="https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windows-10-mobile/refs/heads/main/Google-translate-screenshot-1.jpg" class="screenshot-item" onclick="openModal(0)" alt="Скриншот 1">
+        <img src="https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windows-10-mobile/refs/heads/main/Google-translate-screenshot-2.jpg" class="screenshot-item" onclick="openModal(1)" alt="Скриншот 2">
     </div>
 
-    <!-- Подробное описание и список возможностей -->
+    <!-- Полноэкранный просмотрщик (LightBox) -->
+    <div id="imageModal" class="modal-overlay">
+        <div class="modal-top-bar">
+            <a id="modalDownloadLink" class="modal-btn" href="#" download target="_blank" title="Скачать скриншот">&#10515;</a>
+            <span class="modal-btn" onclick="closeModal()" title="Закрыть">&#10005;</span>
+        </div>
+        
+        <span class="modal-nav-btn modal-nav-prev" onclick="changeSlide(-1)">&#10094;</span>
+        <span class="modal-nav-btn modal-nav-next" onclick="changeSlide(1)">&#10095;</span>
+
+        <div class="modal-image-wrapper" onclick="closeModal()">
+            <img id="modalImage" class="modal-image" src="" alt="Скриншот" onclick="event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);">
+        </div>
+    </div>
+
+    <!-- Подробное описание -->
     <div class="app-desc">
         <ul>
             <li>перевод текста с 10 языков</li>
@@ -156,6 +251,76 @@
             </li>
         </ul>
     </div>
+
+    <script type="text/javascript">
+        var screenshots = [
+            'https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windows-10-mobile/refs/heads/main/Google-translate-screenshot-1.jpg',
+            'https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windows-10-mobile/refs/heads/main/Google-translate-screenshot-2.jpg'
+        ];
+        
+        var currentModalIndex = 0;
+        var modal = document.getElementById('imageModal');
+        var modalImg = document.getElementById('modalImage');
+        var modalDownload = document.getElementById('modalDownloadLink');
+
+        function openModal(index) {
+            currentModalIndex = index;
+            updateModalImage();
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        function changeSlide(direction) {
+            currentModalIndex += direction;
+            if (currentModalIndex >= screenshots.length) {
+                currentModalIndex = 0;
+            } else if (currentModalIndex < 0) {
+                currentModalIndex = screenshots.length - 1;
+            }
+            updateModalImage();
+        }
+
+        function updateModalImage() {
+            var src = screenshots[currentModalIndex];
+            modalImg.src = src;
+            modalDownload.href = src;
+        }
+
+        // Поддержка клавиатуры (стрелки и Esc)
+        document.onkeydown = function(e) {
+            e = e || window.event;
+            if (modal.style.display === 'block') {
+                if (e.keyCode === 27) { // Esc
+                    closeModal();
+                } else if (e.keyCode === 37) { // Влево
+                    changeSlide(-1);
+                } else if (e.keyCode === 39) { // Вправо
+                    changeSlide(1);
+                }
+            }
+        };
+
+        // Поддержка свайпов для сенсорных экранов (IE11/Edge/Mobile)
+        var touchStartX = 0;
+        modal.addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].clientX;
+        }, false);
+
+        modal.addEventListener('touchend', function(e) {
+            var touchEndX = e.changedTouches[0].clientX;
+            var diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 40) {
+                if (diff > 0) {
+                    changeSlide(1);
+                } else {
+                    changeSlide(-1);
+                }
+            }
+        }, false);
+    </script>
 
 </body>
 </html>
