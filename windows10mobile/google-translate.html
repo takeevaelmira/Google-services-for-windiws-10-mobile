@@ -94,10 +94,22 @@
             margin-right: 0;
         }
 
+        /* Описание и список функций */
         .app-desc {
             font-size: 15px;
-            line-height: 1.5;
+            line-height: 1.6;
             color: #e8eaed;
+        }
+        .app-desc ul {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+        .app-desc li {
+            margin-bottom: 6px;
+        }
+        .app-desc ul ul {
+            margin-top: 4px;
+            margin-bottom: 4px;
         }
     </style>
 </head>
@@ -121,8 +133,28 @@
         <img src="https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windows-10-mobile/refs/heads/main/Google-translate-screenshot-2.jpg" class="screenshot-item" alt="Скриншот 2 Google Переводчик">
     </div>
 
+    <!-- Подробное описание и список возможностей -->
     <div class="app-desc">
-        Приложение позволяет переводить любой текст, а также использовать камеру и микрофон для быстрого перевода.
+        <ul>
+            <li>перевод текста с 10 языков</li>
+            <li>перевод текста с камеры с 10 языков</li>
+            <li>перевод текста с микрофона с 10 языков (работает не на всех устройствах)</li>
+            <li>копирование перевода</li>
+            <li>озвучивание перевода с 10 языков</li>
+            <li>авто язык</li>
+            <li>анимация кнопки копировать</li>
+            <li>анимация кнопки микрофона</li>
+            <li>исправлен английский язык интерфейса</li>
+            <li>улучшен интерфейс настроек</li>
+            <li>в настройках:
+                <ul>
+                    <li>основное: Автоматически озвучивать перевод, переводить на лету при вводе текста</li>
+                    <li>персонализация: Язык, тема</li>
+                    <li>дополнительные: Свой groq api key для микрофона (можно оставить по умолчанию)</li>
+                    <li>о программе: Название, версия, разработчик</li>
+                </ul>
+            </li>
+        </ul>
     </div>
 
 </body>
