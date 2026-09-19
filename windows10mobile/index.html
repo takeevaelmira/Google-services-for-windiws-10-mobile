@@ -142,15 +142,11 @@
             padding-left: 4px;
         }
         .apps-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
+            font-size: 0;
         }
         .app-card-square {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            display: inline-block;
+            vertical-align: top;
             background-color: #202124;
             border: 1px solid #3c4043;
             border-radius: 16px;
@@ -160,8 +156,9 @@
             box-sizing: border-box;
             text-decoration: none;
             color: inherit;
-            cursor: pointer;
             text-align: center;
+            margin-right: 12px;
+            margin-bottom: 12px;
         }
         .app-card-square:active {
             background-color: #2d2e31;
@@ -180,7 +177,7 @@
             background-position: center;
             background-repeat: no-repeat;
             background-size: contain;
-            margin-bottom: 8px;
+            margin: 0 auto 8px auto;
         }
         .app-name-square {
             font-size: 13px;
@@ -192,85 +189,6 @@
         .app-version-square {
             font-size: 11px;
             color: #9aa0a6;
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 100;
-            overflow-y: auto;
-        }
-        .modal-content {
-            background-color: #202124;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #3c4043;
-            border-radius: 16px;
-            width: 85%;
-            max-width: 400px;
-            color: #e8eaed;
-            position: relative;
-        }
-        .modal-close {
-            position: absolute;
-            top: 12px;
-            right: 16px;
-            font-size: 24px;
-            color: #9aa0a6;
-            cursor: pointer;
-        }
-        .modal-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        .modal-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: contain;
-            margin-right: 16px;
-        }
-        .modal-title {
-            font-size: 20px;
-            font-weight: 600;
-        }
-        .modal-ver {
-            font-size: 14px;
-            color: #9aa0a6;
-            margin-top: 4px;
-        }
-        .modal-desc {
-            font-size: 14px;
-            line-height: 1.4;
-            color: #e8eaed;
-            margin-bottom: 16px;
-        }
-        .modal-screenshot {
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 16px;
-        }
-        .download-btn {
-            display: block;
-            text-align: center;
-            background-color: #8ab4f8;
-            color: #202124;
-            font-weight: 600;
-            padding: 12px;
-            border-radius: 24px;
-            text-decoration: none;
-            font-size: 16px;
-        }
-        .download-btn:active {
-            background-color: #669df6;
         }
     </style>
 </head>
@@ -330,36 +248,16 @@
         <div class="section-title">Приложения</div>
 
         <div class="apps-grid">
-            <div class="app-card-square" onclick="openModal()">
+            <a href="./google-translate.html" class="app-card-square">
                 <div class="app-icon-square" style="background-image: url('https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windows-10-mobile/refs/heads/main/Google_Translate_icon.png');"></div>
                 <div class="app-name-square">Google Переводчик</div>
-                <div class="app-version-square">1.1.0</div>
-            </div>
+                <div class="app-version-square">Версия 1.0.0</div>
+            </a>
 
             <div class="app-card-square disabled">
                 <div class="app-icon-square" style="background-image: url('https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windiws-10-mobile/refs/heads/main/Google_Maps_icon.png');"></div>
                 <div class="app-name-square">Google Карты</div>
                 <div class="app-version-square">Скоро выйдет</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="appModal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal()">&times;</span>
-            <div class="modal-header">
-                <div class="modal-icon" style="background-image: url('https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windows-10-mobile/refs/heads/main/Google_Translate_icon.png');"></div>
-                <div>
-                    <div class="modal-title">Google Переводчик</div>
-                    <div class="modal-ver">1.1.0</div>
-                </div>
-            </div>
-            <a href="#" class="download-btn">Скачать</a>
-            
-            <img src="https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windiws-10-mobile/refs/heads/main/Google-translate-screenshot-1.jpg" class="modal-screenshot" alt="Скриншот">
-            
-            <div class="modal-desc">
-                Приложение позволяет переводить любой текст, а также использовать камеру и микрофон для быстрого перевода.
             </div>
         </div>
     </div>
@@ -431,14 +329,6 @@
         }
 
         resetTimer();
-
-        function openModal() {
-            document.getElementById('appModal').style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('appModal').style.display = 'none';
-        }
     </script>
 
 </body>
