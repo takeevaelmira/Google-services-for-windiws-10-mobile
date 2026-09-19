@@ -2,7 +2,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <!-- Разрешаем масштабирование и приближение пальцами -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Google Переводчик - Windows 10 Mobile</title>
     <style type="text/css">
         body {
@@ -77,13 +78,16 @@
         }
         .screenshot-item {
             display: inline-block;
-            width: 200px;
-            height: 355px;
+            width: auto;
+            max-width: 200px;
+            height: auto;
+            max-height: 350px;
             margin-right: 12px;
             vertical-align: top;
             border-radius: 12px;
             border: 1px solid #3c4043;
             cursor: pointer;
+            object-fit: contain;
         }
 
         /* Полноэкранный режим просмотра (LightBox) */
@@ -95,66 +99,92 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: #000000;
+            background-color: rgba(0, 0, 0, 0.95);
             text-align: center;
+            overflow: hidden;
         }
 
-        /* Кнопка Закрыть — Левый верхний угол (чисто белая) */
+        /* Кнопка Закрыть */
         .modal-close-btn {
-            position: absolute;
+            position: fixed;
             top: 16px;
             left: 20px;
-            z-index: 10000;
+            z-index: 10001;
             color: #ffffff;
-            font-size: 28px;
+            font-size: 24px;
             cursor: pointer;
             user-select: none;
+            background: rgba(0,0,0,0.6);
+            width: 40px;
+            height: 40px;
+            line-height: 38px;
+            border-radius: 50%;
         }
 
-        /* Кнопка Скачать — Правый верхний угол (чисто белая) */
+        /* Кнопка Скачать */
         .modal-download-btn {
-            position: absolute;
+            position: fixed;
             top: 16px;
             right: 20px;
-            z-index: 10000;
+            z-index: 10001;
             color: #ffffff;
-            font-size: 28px;
+            font-size: 22px;
             text-decoration: none;
             cursor: pointer;
             user-select: none;
+            background: rgba(0,0,0,0.6);
+            width: 40px;
+            height: 40px;
+            line-height: 38px;
+            border-radius: 50%;
+            display: inline-block;
         }
 
-        /* Полноэкранный контейнер для изображений */
+        /* Контейнер сцены слайдера */
         .modal-image-wrapper {
             width: 100%;
             height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
+            box-sizing: border-box;
+            touch-action: pan-y pinch-zoom;
         }
         
         .modal-image {
             max-width: 90%;
-            max-height: 80%;
-            position: absolute;
-            top: 10%;
-            left: 5%;
-            width: 90%;
-            height: 80%;
+            max-height: 85vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
             border-radius: 8px;
-            transition: left 0.25s ease, opacity 0.25s ease;
-        }
-
-        /* Классы смещения для плавной смены скриншота */
-        .slide-normal {
-            left: 5%;
+            position: absolute;
+            transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+            transform: translateX(0);
             opacity: 1;
         }
-        .slide-out-left {
-            left: -100%;
-            opacity: 0;
+
+        /* Анимационные классы направления */
+        .slide-center {
+            transform: translateX(0) !important;
+            opacity: 1 !important;
         }
-        .slide-out-right {
-            left: 100%;
-            opacity: 0;
+        .slide-left-out {
+            transform: translateX(-120%) !important;
+            opacity: 0 !important;
+        }
+        .slide-right-out {
+            transform: translateX(120%) !important;
+            opacity: 0 !important;
+        }
+        .slide-right-in {
+            transform: translateX(120%) !important;
+            opacity: 0 !important;
+        }
+        .slide-left-in {
+            transform: translateX(-120%) !important;
+            opacity: 0 !important;
         }
 
         /* Описание */
@@ -200,10 +230,10 @@
     <!-- Полноэкранный просмотр -->
     <div id="imageModal" class="modal-overlay">
         <span class="modal-close-btn" onclick="closeModal()">&#10005;</span>
-        <a id="modalDownloadLink" class="modal-download-btn" href="#" download target="_blank">&#10515;</a>
+        <a id="modalDownloadLink" class="modal-download-btn" onclick="downloadCurrentImage(event)" title="Скачать">&#10515;</a>
 
         <div class="modal-image-wrapper" id="modalWrapper" onclick="closeModal()">
-            <img id="modalImage" class="modal-image slide-normal" src="" alt="Скриншот" onclick="event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);">
+            <img id="modalImage" class="modal-image slide-center" src="" alt="Скриншот" onclick="event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);">
         </div>
     </div>
 
@@ -238,14 +268,14 @@
         ];
         
         var currentModalIndex = 0;
+        var isAnimating = false;
         var modal = document.getElementById('imageModal');
         var modalImg = document.getElementById('modalImage');
-        var modalDownload = document.getElementById('modalDownloadLink');
 
         function openModal(index) {
             currentModalIndex = index;
-            modalImg.className = 'modal-image slide-normal';
-            updateModalImage();
+            modalImg.src = screenshots[currentModalIndex];
+            modalImg.className = 'modal-image slide-center';
             modal.style.display = 'block';
         }
 
@@ -253,13 +283,11 @@
             modal.style.display = 'none';
         }
 
-        function updateModalImage() {
-            var src = screenshots[currentModalIndex];
-            modalImg.src = src;
-            modalDownload.href = src;
-        }
-
+        // Перелистывание скриншотов
         function swipeToSlide(direction) {
+            if (isAnimating) return;
+            isAnimating = true;
+
             var nextIndex = currentModalIndex + direction;
             if (nextIndex >= screenshots.length) {
                 nextIndex = 0;
@@ -267,35 +295,71 @@
                 nextIndex = screenshots.length - 1;
             }
 
-            // Плавный сдвиг влево или вправо
-            modalImg.className = 'modal-image ' + (direction > 0 ? 'slide-out-left' : 'slide-out-right');
+            // Направление движения:
+            // direction > 0 (Свайп влево -> идем вперед): старое фото уходит ВЛЕВО, новое входит СПРАВА
+            // direction < 0 (Свайп вправо -> идем назад): старое фото уходит ВПРАВО, новое входит СЛЕВА
+            var exitClass = direction > 0 ? 'modal-image slide-left-out' : 'modal-image slide-right-out';
+            var enterClass = direction > 0 ? 'modal-image slide-right-in' : 'modal-image slide-left-in';
+
+            // 1. Уводим текущую картинку
+            modalImg.className = exitClass;
 
             setTimeout(function() {
+                // 2. Меняем источник и без анимации ставим с нужной стороны
                 currentModalIndex = nextIndex;
-                updateModalImage();
-                modalImg.className = 'modal-image ' + (direction > 0 ? 'slide-out-right' : 'slide-out-left');
-                
+                modalImg.style.transition = 'none';
+                modalImg.src = screenshots[currentModalIndex];
+                modalImg.className = enterClass;
+
+                // 3. Плавно возвращаем в центр
                 setTimeout(function() {
-                    modalImg.className = 'modal-image slide-normal';
-                }, 50);
+                    modalImg.style.transition = 'transform 0.25s ease-in-out, opacity 0.25s ease-in-out';
+                    modalImg.className = 'modal-image slide-center';
+                    setTimeout(function() {
+                        isAnimating = false;
+                    }, 250);
+                }, 20);
             }, 250);
         }
 
-        // Клавиатура (Esc, Влево, Вправо)
+        // Скачивание файла
+        function downloadCurrentImage(e) {
+            if (e) e.stopPropagation();
+            var url = screenshots[currentModalIndex];
+            var filename = 'google-translate-screenshot-' + (currentModalIndex + 1) + '.jpg';
+
+            fetch(url)
+                .then(function(response) {
+                    return response.blob();
+                })
+                .then(function(blob) {
+                    var link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = filename;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                })
+                .catch(function() {
+                    window.open(url, '_blank');
+                });
+        }
+
+        // Клавиатура
         document.onkeydown = function(e) {
             e = e || window.event;
             if (modal.style.display === 'block') {
                 if (e.keyCode === 27) {
                     closeModal();
                 } else if (e.keyCode === 37) {
-                    swipeToSlide(-1);
+                    swipeToSlide(-1); // Стрелка влево -> предыдущее
                 } else if (e.keyCode === 39) {
-                    swipeToSlide(1);
+                    swipeToSlide(1);  // Стрелка вправо -> следующее
                 }
             }
         };
 
-        // Простой расчет свайпа
+        // Жесты / Свайпы пальцем и мышкой
         var startX = 0;
 
         function handleStart(e) {
@@ -305,11 +369,13 @@
         function handleEnd(e) {
             var endX = e.changedTouches ? e.changedTouches[0].clientX : (e.clientX || 0);
             var diff = startX - endX;
-            if (Math.abs(diff) > 30) {
+
+            // Если палец/мышку сдвинули более чем на 35 пикселей
+            if (Math.abs(diff) > 35) {
                 if (diff > 0) {
-                    swipeToSlide(1);
+                    swipeToSlide(1);  // Свайп влево -> Вперед
                 } else {
-                    swipeToSlide(-1);
+                    swipeToSlide(-1); // Свайп вправо -> Назад
                 }
             }
         }
