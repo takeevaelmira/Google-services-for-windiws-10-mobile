@@ -2,7 +2,6 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <!-- Разрешаем масштабирование и приближение пальцами -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Google Переводчик - Windows 10 Mobile</title>
     <style type="text/css">
@@ -67,7 +66,6 @@
             margin-bottom: 24px;
         }
 
-        /* Контейнер ленты скриншотов */
         .screenshots-scroll-container {
             width: 100%;
             overflow-x: auto;
@@ -90,7 +88,6 @@
             object-fit: contain;
         }
 
-        /* Полноэкранный режим просмотра (LightBox) */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -104,7 +101,6 @@
             overflow: hidden;
         }
 
-        /* Кнопка Закрыть */
         .modal-close-btn {
             position: fixed;
             top: 16px;
@@ -121,7 +117,6 @@
             border-radius: 50%;
         }
 
-        /* Кнопка Скачать */
         .modal-download-btn {
             position: fixed;
             top: 16px;
@@ -140,7 +135,6 @@
             display: inline-block;
         }
 
-        /* Контейнер сцены слайдера */
         .modal-image-wrapper {
             width: 100%;
             height: 100%;
@@ -165,7 +159,6 @@
             opacity: 1;
         }
 
-        /* Анимационные классы направления */
         .slide-center {
             transform: translateX(0) !important;
             opacity: 1 !important;
@@ -187,7 +180,6 @@
             opacity: 0 !important;
         }
 
-        /* Описание */
         .app-desc {
             font-size: 15px;
             line-height: 1.6;
@@ -221,13 +213,11 @@
 
     <a href="https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windows-10-mobile/main/Google%20Translate_1.1.0.0_arm_Debug.appxbundle" class="download-button" download>Скачать</a>
 
-    <!-- Лента скриншотов -->
     <div class="screenshots-scroll-container">
         <img src="https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windows-10-mobile/refs/heads/main/Google-translate-screenshot-1.jpg" class="screenshot-item" onclick="openModal(0)" alt="Скриншот 1">
         <img src="https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windows-10-mobile/refs/heads/main/Google-translate-screenshot-2.jpg" class="screenshot-item" onclick="openModal(1)" alt="Скриншот 2">
     </div>
 
-    <!-- Полноэкранный просмотр -->
     <div id="imageModal" class="modal-overlay">
         <span class="modal-close-btn" onclick="closeModal()">&#10005;</span>
         <a id="modalDownloadLink" class="modal-download-btn" onclick="downloadCurrentImage(event)" title="Скачать">&#10515;</a>
@@ -237,7 +227,6 @@
         </div>
     </div>
 
-    <!-- Список возможностей -->
     <div class="app-desc">
         <ul>
             <li>перевод текста с 10 языков</li>
@@ -283,7 +272,6 @@
             modal.style.display = 'none';
         }
 
-        // Перелистывание скриншотов
         function swipeToSlide(direction) {
             if (isAnimating) return;
             isAnimating = true;
@@ -295,23 +283,17 @@
                 nextIndex = screenshots.length - 1;
             }
 
-            // Направление движения:
-            // direction > 0 (Свайп влево -> идем вперед): старое фото уходит ВЛЕВО, новое входит СПРАВА
-            // direction < 0 (Свайп вправо -> идем назад): старое фото уходит ВПРАВО, новое входит СЛЕВА
             var exitClass = direction > 0 ? 'modal-image slide-left-out' : 'modal-image slide-right-out';
             var enterClass = direction > 0 ? 'modal-image slide-right-in' : 'modal-image slide-left-in';
 
-            // 1. Уводим текущую картинку
             modalImg.className = exitClass;
 
             setTimeout(function() {
-                // 2. Меняем источник и без анимации ставим с нужной стороны
                 currentModalIndex = nextIndex;
                 modalImg.style.transition = 'none';
                 modalImg.src = screenshots[currentModalIndex];
                 modalImg.className = enterClass;
 
-                // 3. Плавно возвращаем в центр
                 setTimeout(function() {
                     modalImg.style.transition = 'transform 0.25s ease-in-out, opacity 0.25s ease-in-out';
                     modalImg.className = 'modal-image slide-center';
@@ -322,7 +304,6 @@
             }, 250);
         }
 
-        // Скачивание файла
         function downloadCurrentImage(e) {
             if (e) e.stopPropagation();
             var url = screenshots[currentModalIndex];
@@ -345,21 +326,19 @@
                 });
         }
 
-        // Клавиатура
         document.onkeydown = function(e) {
             e = e || window.event;
             if (modal.style.display === 'block') {
                 if (e.keyCode === 27) {
                     closeModal();
                 } else if (e.keyCode === 37) {
-                    swipeToSlide(-1); // Стрелка влево -> предыдущее
+                    swipeToSlide(-1);
                 } else if (e.keyCode === 39) {
-                    swipeToSlide(1);  // Стрелка вправо -> следующее
+                    swipeToSlide(1);
                 }
             }
         };
 
-        // Жесты / Свайпы пальцем и мышкой
         var startX = 0;
 
         function handleStart(e) {
@@ -370,12 +349,11 @@
             var endX = e.changedTouches ? e.changedTouches[0].clientX : (e.clientX || 0);
             var diff = startX - endX;
 
-            // Если палец/мышку сдвинули более чем на 35 пикселей
             if (Math.abs(diff) > 35) {
                 if (diff > 0) {
-                    swipeToSlide(1);  // Свайп влево -> Вперед
+                    swipeToSlide(1);
                 } else {
-                    swipeToSlide(-1); // Свайп вправо -> Назад
+                    swipeToSlide(-1);
                 }
             }
         }
