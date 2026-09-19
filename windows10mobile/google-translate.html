@@ -70,13 +70,28 @@
             background-color: #669df6;
         }
 
-        .screenshot-container {
-            margin-bottom: 24px;
-        }
-        .screenshot {
+        /* Контейнер горизонтальной галереи */
+        .screenshots-scroll-container {
             width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            margin-bottom: 24px;
+            padding-bottom: 8px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .screenshot-item {
+            display: inline-block;
+            width: 200px;
+            height: 355px;
+            margin-right: 12px;
+            vertical-align: top;
             border-radius: 12px;
             border: 1px solid #3c4043;
+            object-fit: cover;
+        }
+        .screenshot-item:last-child {
+            margin-right: 0;
         }
 
         .app-desc {
@@ -100,8 +115,10 @@
 
     <a href="https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windows-10-mobile/main/Google%20Translate_1.1.0.0_arm_Debug.appxbundle" class="download-button" download>Скачать</a>
 
-    <div class="screenshot-container">
-        <img src="https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windiws-10-mobile/refs/heads/main/Google-translate-screenshot-1.jpg" class="screenshot" alt="Скриншот Google Переводчик">
+    <!-- Горизонтальная прокрутка скриншотов влево и вправо -->
+    <div class="screenshots-scroll-container">
+        <img src="https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windows-10-mobile/refs/heads/main/Google-translate-screenshot-1.jpg" class="screenshot-item" alt="Скриншот 1 Google Переводчик">
+        <img src="https://raw.githubusercontent.com/takeevaelmira/Google-services-for-windows-10-mobile/refs/heads/main/Google-translate-screenshot-2.jpg" class="screenshot-item" alt="Скриншот 2 Google Переводчик">
     </div>
 
     <div class="app-desc">
